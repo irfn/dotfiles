@@ -18,6 +18,8 @@ setopt hist_allow_clobber
 setopt hist_reduce_blanks
 setopt share_history
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 #setopt auto_list list_ambiguous
 
 setopt list_types
