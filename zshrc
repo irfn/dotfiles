@@ -1,6 +1,6 @@
 
 export PKGCONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig"
-export PATH=$PATH:/opt/local/bin:/usr/local/mysql/bin/:/opt/local/ironruby/bin/:/opt/local/jruby-1.2.0/bin/:/opt/local/ioke/bin/:/opt/local/lib/rabbitmq/bin/
+export PATH=/opt/subversion/bin:$PATH:/opt/local/bin:/usr/local/mysql/bin/:/opt/local/ironruby/bin/:/opt/local/jruby-1.2.0/bin/:/opt/local/ioke/bin/:/opt/local/lib/rabbitmq/bin/
 export SVN_EDITOR="vim"
 export MANPATH=/opt/local/man:$MANPATH
 export GEM_PATH=/usr/lib/ruby/gems/1.8
@@ -110,6 +110,10 @@ alias slapsta="sudo /opt/local/etc/openldap/slapd.sh start"
 alias slapsto="sudo /opt/local/etc/openldap/slapd.sh stop"
 alias setupdbs="cp config/database.yml.sample config/database.yml;rake db:create;rake db:create RAILS_ENV=test;rake db:migrate"
 alias startpg="sudo su postgres -c '/opt/local/lib/postgresql83/bin/postgres -D /opt/local/var/db/postgresql83/defaultdb'"
+alias ss="./script/server"
+alias sc="./script/console"
+alias sd="./script/dbconsole"
+alias etags="/opt/local/bin/ctags -e \`find (app|spec|lib|config)/**/*.rb\`"
 # ensures that deleting word on /path/to/file deletes only 'file', this removes the '/' from $WORDCHARS
 export WORDCHARS="${WORDCHARS:s#/#}"
 export WORDCHARS="${WORDCHARS:s#.#}"
@@ -117,6 +121,10 @@ export CUCUMBER_COLORS=pending_param=magenta:failed_param=magenta:passed_param=m
 export RSPEC=true
 parse_git_branch() {
  	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+function reals () {
+  ls -la "$(print `which $1`)"
 }
 
 function title () {
