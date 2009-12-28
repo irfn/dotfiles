@@ -114,6 +114,7 @@ alias ss="./script/server"
 alias sc="./script/console"
 alias sd="./script/dbconsole"
 alias etags="/opt/local/bin/ctags -e \`find (app|spec|lib|config)/**/*.rb\`"
+
 # ensures that deleting word on /path/to/file deletes only 'file', this removes the '/' from $WORDCHARS
 export WORDCHARS="${WORDCHARS:s#/#}"
 export WORDCHARS="${WORDCHARS:s#.#}"
@@ -137,7 +138,9 @@ function precmd {
 PS1="$(print '%{\e[0;37m%}%n%{\e[0m%}')@%M %{$fg[yellow]%}%~%{$fg[green]%}$(parse_git_branch) %{$reset_color%}>"	
 }
 
-
+function capture {
+		sudo tcpdump -A -s 0 -i lo0 "(src and dst localhost) and ( tcp port `echo $1` ) and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)"
+}
 # Usage:
 # title 'my title'
 
