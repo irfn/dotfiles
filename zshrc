@@ -1,9 +1,11 @@
 
 export PKGCONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig"
-export PATH=/opt/subversion/bin:$PATH:/opt/local/bin:/usr/local/mysql/bin/:/opt/local/ironruby/bin/:/opt/local/jruby-1.2.0/bin/:/opt/local/ioke/bin/:/opt/local/lib/rabbitmq/bin/
-export SVN_EDITOR="vim"
+export MAGLEV_HOME=$HOME/dev/ruby/maglev
+export PATH="`cat ~/.paths`:$PATH:$MAGLEV_HOME/bin"
+export SVN_EDITOR="emacs"
 export MANPATH=/opt/local/man:$MANPATH
-export GEM_PATH=/usr/lib/ruby/gems/1.8
+export GEM_PATH=/Library/Ruby/Gems/1.8
+GREP_OPTIONS="--exclude=\"\(*\.svn*|*\.git*\)\""
 # number of lines kept in history
 export HISTSIZE=10000
 # number of lines saved in the history after logout
@@ -110,11 +112,12 @@ alias slapsta="sudo /opt/local/etc/openldap/slapd.sh start"
 alias slapsto="sudo /opt/local/etc/openldap/slapd.sh stop"
 alias setupdbs="cp config/database.yml.sample config/database.yml;rake db:create;rake db:create RAILS_ENV=test;rake db:migrate"
 alias startpg="sudo su postgres -c '/opt/local/lib/postgresql83/bin/postgres -D /opt/local/var/db/postgresql83/defaultdb'"
-alias ss="./script/server"
-alias sc="./script/console"
+alias ss="NODEPS=true ./script/server"
+alias sc="NODEPS=true ./script/console"
+#find $1 -exec grep -H $2 {} \;-print | awk '{print $1}'
 alias sd="./script/dbconsole"
 alias etags="/opt/local/bin/ctags -e \`find (app|spec|lib|config)/**/*.rb\`"
-
+alias svnstat="svn stat --ignore-externals"
 # ensures that deleting word on /path/to/file deletes only 'file', this removes the '/' from $WORDCHARS
 export WORDCHARS="${WORDCHARS:s#/#}"
 export WORDCHARS="${WORDCHARS:s#.#}"
@@ -126,6 +129,10 @@ parse_git_branch() {
 
 function reals () {
   ls -la "$(print `which $1`)"
+}
+
+function svnaddall () {
+  svn status | grep ^\? | awk '{print "svn add "$2}' | sh
 }
 
 function title () {
