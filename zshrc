@@ -1,7 +1,7 @@
 
 export PKGCONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig"
 export MAGLEV_HOME=$HOME/dev/ruby/maglev
-export PATH="`cat ~/.paths`:$PATH:$MAGLEV_HOME/bin"
+export PATH="`cat ~/.paths`:$PATH:$MAGLEV_HOME/bin:~/dev/ruby/rackspace/dev_machine_scripts/bin"
 export SVN_EDITOR="emacs"
 export MANPATH=/opt/local/man:$MANPATH
 export GEM_PATH=/Library/Ruby/Gems/1.8
@@ -84,11 +84,13 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' squeeze-slashes true
 
 # named directories
-for i in $HOME/dev/ruby/ror/*; do
+for i in $HOME/dev/ruby/rackspace/ror/*; do
 	project=`basename $i`;
 	hash -d $project="$i"
 done
 
+export USE_INDIA_REPO=true
+hash -d DL=~/Downloads
 
 # global aliases
 alias -g H='| head'
@@ -110,7 +112,6 @@ alias .......='cd ../../../../../..'
 alias m="mate Rakefile app config db public script stories spec lib"
 alias slapsta="sudo /opt/local/etc/openldap/slapd.sh start"
 alias slapsto="sudo /opt/local/etc/openldap/slapd.sh stop"
-alias setupdbs="cp config/database.yml.sample config/database.yml;rake db:create;rake db:create RAILS_ENV=test;rake db:migrate"
 alias startpg="sudo su postgres -c '/opt/local/lib/postgresql83/bin/postgres -D /opt/local/var/db/postgresql83/defaultdb'"
 alias ss="NODEPS=true ./script/server"
 alias sc="NODEPS=true ./script/console"
@@ -118,6 +119,8 @@ alias sc="NODEPS=true ./script/console"
 alias sd="./script/dbconsole"
 alias etags="/opt/local/bin/ctags -e \`find (app|spec|lib|config)/**/*.rb\`"
 alias svnstat="svn stat --ignore-externals"
+alias gitp="git pull && giternal update"
+alias zshload="source ~/.zshrc"
 # ensures that deleting word on /path/to/file deletes only 'file', this removes the '/' from $WORDCHARS
 export WORDCHARS="${WORDCHARS:s#/#}"
 export WORDCHARS="${WORDCHARS:s#.#}"
@@ -145,11 +148,33 @@ function precmd {
 PS1="$(print '%{\e[0;37m%}%n%{\e[0m%}')@%M %{$fg[yellow]%}%~%{$fg[green]%}$(parse_git_branch) %{$reset_color%}>"	
 }
 
+function preexec {
+	#curl -s -d"command[command_text]=$1" http://localhost:3000/commands
+}
+
 function capture {
 		sudo tcpdump -A -s 0 -i lo0 "(src and dst localhost) and ( tcp port `echo $1` ) and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)"
 }
 # Usage:
 # title 'my title'
+source /Users/irfn/.rvm/scripts/rvm 
 
+chpwd_rvm() {
+    current_version=$(rvm info | grep " version:" | cut -d '"' -f2)
+    dir=$(pwd)
+    while [ "${dir}" != "" ]; do
+        cfg="${dir}/.rvminfo"
+        if [ -f ${cfg} ]; then
+            want_version=$(cat ${cfg})
+            if [ "${want_version}" != "${current_version}" ]; then
+                rvm use ${want_version}
+            fi
+            break
+        else
+            dir=${dir%/*}
+        fi
+    done
+}
+chpwd_functions=( chpwd_rvm )
 typeset -U fpath
 autoload -U _git
