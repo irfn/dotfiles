@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'irb/completion'
-require 'map_by_method'
-require 'what_methods'
 require 'pp'
 require 'wirble'
 require 'readline'
@@ -27,12 +25,10 @@ end
 
 def factory_girl_help
   require 'factory_girl'
-  require 'spec/factories.rb'
+  require "spec/factories.rb" if File.exists?("spec/factories.rb")
 end
 
 def vendor_factory_girl_help
   factory_girl_help
-  require 'vendor/plugins/configuration_domain/spec/factories.rb'
-  require 'vendor/plugins/owner_domain/spec/factories.rb'
+  Dir.glob("vendor/plugins/*/spec/factories.rb").each{|file| require file}
 end
-

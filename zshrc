@@ -5,6 +5,7 @@ export PATH="`cat ~/.paths`:$PATH:$MAGLEV_HOME/bin:~/dev/ruby/rackspace/dev_mach
 export SVN_EDITOR="emacs"
 export MANPATH=/opt/local/man:$MANPATH
 export GEM_PATH=/Library/Ruby/Gems/1.8
+export ANDROID_SDK="$HOME/dev/android/android-sdk-mac_86"
 GREP_OPTIONS="--exclude=\"\(*\.svn*|*\.git*\)\""
 # number of lines kept in history
 export HISTSIZE=10000
@@ -130,8 +131,23 @@ parse_git_branch() {
  	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
+function listen () {
+	rake blackbox:integration listen $1
+}
+
+function int () {
+	rake blackbox:integration $1
+}
+
+function wp () {
+	dig +short txt "$1.wp.dg.cx"
+}
 function reals () {
   ls -la "$(print `which $1`)"
+}
+
+function rakeall () {
+	RAILS_ENV=test rake $1 && RAILS_ENV=test_integration rake $1 && RAILS_ENV=development rake $1
 }
 
 function svnaddall () {
