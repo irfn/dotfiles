@@ -1,12 +1,15 @@
-
 export PKGCONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig"
 export MAGLEV_HOME=$HOME/dev/ruby/maglev
-export PATH="`cat ~/.paths`:$PATH:$MAGLEV_HOME/bin:~/dev/ruby/rackspace/dev_machine_scripts/bin"
+export APPENGINE_HOME=$HOME/dev/java/appengine-java-sdk-1.4.2
+export PATH="`cat ~/.paths`:$PATH:$MAGLEV_HOME/bin:$APPENGINE_HOME/bin"
 export SVN_EDITOR="emacs"
 export MANPATH=/opt/local/man:$MANPATH
 export GEM_PATH=/Library/Ruby/Gems/1.8
 export ANDROID_SDK="$HOME/dev/android/android-sdk-mac_86"
-GREP_OPTIONS="--exclude=\"\(*\.svn*|*\.git*\)\""
+export GREP_OPTIONS="--exclude=\"\(*\.svn*|*\.git*\)\""
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;32'
+
 # number of lines kept in history
 export HISTSIZE=10000
 # number of lines saved in the history after logout
@@ -41,7 +44,8 @@ export LSCOLORS=DxGxcxdxCxegedabagacad
 # console colors
 autoload -U colors && colors
 alias ls="ls -F"
-
+alias cdp="cd `pbpaste`"
+alias gemopen="open `gem which rcov | sed -e 's/lib.*$//'`"
 # completion
 autoload -U compinit && compinit
 # colorize completion
@@ -85,13 +89,10 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' squeeze-slashes true
 
 # named directories
-for i in $HOME/dev/ruby/rackspace/ror/*; do
+for i in $HOME/dev/ruby/ror/*; do
 	project=`basename $i`;
 	hash -d $project="$i"
 done
-
-export USE_INDIA_REPO=true
-hash -d DL=~/Downloads
 
 # global aliases
 alias -g H='| head'
@@ -111,11 +112,12 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias m="mate Rakefile app config db public script stories spec lib"
-alias slapsta="sudo /opt/local/etc/openldap/slapd.sh start"
-alias slapsto="sudo /opt/local/etc/openldap/slapd.sh stop"
-alias startpg="sudo su postgres -c '/opt/local/lib/postgresql83/bin/postgres -D /opt/local/var/db/postgresql83/defaultdb'"
-alias ss="NODEPS=true ./script/server"
-alias sc="NODEPS=true ./script/console"
+alias nginx-start="sudo launchctl load -w /Library/LaunchDaemons/org.macports.nginx.plist"
+alias nginx-stop="sudo launchctl unload /Library/LaunchDaemons/org.macports.nginx.plist"
+alias nginx-restart="sudo launchctl unload /Library/LaunchDaemons/org.macports.nginx.plist && sudo launchctl load -w /Library/LaunchDaemons/org.macports.nginx.plist"
+alias gitcpy="git remote -v | awk '/fetch/ {print $2}'| pbcopy"
+alias ss="./script/server"
+alias sc="./script/console"
 #find $1 -exec grep -H $2 {} \;-print | awk '{print $1}'
 alias sd="./script/dbconsole"
 alias etags="/opt/local/bin/ctags -e \`find (app|spec|lib|config)/**/*.rb\`"
@@ -127,16 +129,14 @@ export WORDCHARS="${WORDCHARS:s#/#}"
 export WORDCHARS="${WORDCHARS:s#.#}"
 export CUCUMBER_COLORS=pending_param=magenta:failed_param=magenta:passed_param=magenta:skipped_param=magenta
 export RSPEC=true
+
+touch ~/.zshmarks && source ~/.zshmarks
+function b() {
+  echo "hash -d $1=\"`pwd`\"" >> ~/.zshmarks && source ~/.zshmarks
+}
+
 parse_git_branch() {
  	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-
-function listen () {
-	rake blackbox:integration listen $1
-}
-
-function int () {
-	rake blackbox:integration $1
 }
 
 function wp () {
@@ -144,10 +144,6 @@ function wp () {
 }
 function reals () {
   ls -la "$(print `which $1`)"
-}
-
-function rakeall () {
-	RAILS_ENV=test rake $1 && RAILS_ENV=test_integration rake $1 && RAILS_ENV=development rake $1
 }
 
 function svnaddall () {
@@ -159,6 +155,9 @@ function title () {
   echo -ne "\e]0;$1\a"
 }
 
+function fkill () {
+  ps aux | awk '/$1/ {print "kill -9 "\$2}' 
+}
 function precmd {
 	title `pwd`
 PS1="$(print '%{\e[0;37m%}%n%{\e[0m%}')@%M %{$fg[yellow]%}%~%{$fg[green]%}$(parse_git_branch) %{$reset_color%}>"	
@@ -171,26 +170,18 @@ function preexec {
 function capture {
 		sudo tcpdump -A -s 0 -i lo0 "(src and dst localhost) and ( tcp port `echo $1` ) and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)"
 }
+
+function gdoc {	
+	open `curl -s http://rubygems.org/gems/$1 | grep Documentation | sed 's/^.*<a href="//; s/".*$//'`
+}
 # Usage:
 # title 'my title'
-source /Users/irfn/.rvm/scripts/rvm 
+source /usr/local/lib/rvm
 
-chpwd_rvm() {
-    current_version=$(rvm info | grep " version:" | cut -d '"' -f2)
-    dir=$(pwd)
-    while [ "${dir}" != "" ]; do
-        cfg="${dir}/.rvminfo"
-        if [ -f ${cfg} ]; then
-            want_version=$(cat ${cfg})
-            if [ "${want_version}" != "${current_version}" ]; then
-                rvm use ${want_version}
-            fi
-            break
-        else
-            dir=${dir%/*}
-        fi
-    done
+mate_gem() {
+  mate `gem which $1 | sed 's/lib\/.*\.rb//'`
 }
-chpwd_functions=( chpwd_rvm )
+#chpwd_functions=( chpwd_rvm )
 typeset -U fpath
 autoload -U _git
+
