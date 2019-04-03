@@ -1,0 +1,504 @@
+;; -*- mode: emacs-lisp -*-
+;; This file is loaded by Spacemacs at startup.
+;; It must be stored in your home directory.
+(add-to-list 'default-frame-alist
+             '(ns-transparent-titlebar . t))
+(defun dotspacemacs/layers ()
+  "Configuration Layers declaration.
+You should not put any user code in this function besides modifying the variable
+values."
+  (setq-default
+   ;; Base distribution to use. This is a layer contained in the directory
+   ;; `+distribution'. For now available distributions are `spacemacs-base'
+   ;; or `spacemacs'. (default 'spacemacs)
+   dotspacemacs-distribution 'spacemacs
+   ;; List of additional paths where to look for configuration layers.
+   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   dotspacemacs-configuration-layer-path '()
+   ;; List of configuration layers to load. If it is the symbol `all' instead
+   ;; of a list then all discovered layers will be installed.
+   dotspacemacs-configuration-layers
+   '(
+     ansible
+     nginx
+     elixir
+     ocaml
+     restclient
+     typescript
+     csv
+     ;; <M-m f e R> to install.
+     ;;general
+     auto-completion
+     better-defaults
+     chrome
+     colors
+     org
+     osx
+     semantic
+     shell
+     spell-checking
+     syntax-checking
+
+     ;;Configuration
+     ;;dockerfile
+
+     (mu4e :variables mu4e-installation-path "/usr/local/Cellar/mu/0.9.18_1/share/emacs/site-lisp/mu/mu4e")
+     ;;Frameworks
+
+     react
+
+     ;;Fu
+     xkcd
+
+     ;;IRC
+     rcirc
+     slack
+
+     ;;Programming&markup
+     c-c++
+     clojure
+     emacs-lisp
+     erlang
+     go
+     haskell
+     html
+     ipython-notebook
+     java
+     javascript
+     lua
+     markdown
+     octave
+     python
+
+     ruby
+     rust
+     scala
+     shell-scripts
+     sql
+     swift
+     yaml
+
+     ;;Source control
+     git
+     github
+     version-control
+
+     ;;Tools
+     pandoc
+     ranger
+     tmux
+     vagrant
+
+     (shell :variables
+            shell-default-term-shell "/usr/local/bin/fish"
+            shell-default-shell 'eshell)
+     ;Window management
+     spacemacs-layouts
+     evernote
+
+     ;Clients
+     twitter
+     )
+   ;; List of additional packages that will be installed without being
+   ;; wrapped in a layer. If you need some configuration for these
+   ;; packages, then consider creating a layer. You can also put the
+   ;; configuration in `dotspacemacs/user-config'.
+   dotspacemacs-additional-packages
+   '(
+     gruvbox-theme
+     multiple-cursors
+     wgrep
+     protobuf-mode
+     groovy-mode
+     groovy-imports
+     chef-mode
+     ruby-refactor
+     kite
+     apib-mode
+     go-dlv
+     nyan-mode
+     editorconfig
+     doom-themes
+     neotree
+     atom-one-dark-theme
+     fish-mode
+     arduino-mode
+     zone-nyan
+     wanderlust
+     plantuml-mode
+     terraform-mode
+     company-terraform
+     feature-mode
+     go-snippets
+     ;;xwidgete
+     parinfer
+     mastodon
+     hackernews
+     org-brain
+     speed-type
+     )
+   ;; A list of packages and/or extensions that will not be install and loaded.
+   dotspacemacs-excluded-packages '()
+   ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
+   ;; are declared in a layer which is not a member of
+   ;; the list `dotspacemacs-configuration-layers'. (default t)
+   dotspacemacs-delete-orphan-packages t))
+
+(defun dotspacemacs/init ()
+  "Initialization function.
+This function is called at the very startup of Spacemacs initialization
+before layers configuration.
+You should not put any user code in there besides modifying the variable
+values."
+  ;; This setq-default sexp is an exhaustive list of all the supported
+  ;; spacemacs settings.
+  (setq ditaa-cmd "java -jar ~/dev/tools/ditaa0_9.jar")
+
+  (add-hook 'org-mode-hook 'my-inhibit-global-linum-mode)
+
+  (defun my-inhibit-global-linum-mode ()
+    "Counter-act `global-linum-mode'."
+    (add-hook 'after-change-major-mode-hook
+              (lambda () (linum-mode 0))
+              :append :local))
+
+  (setq-default
+   ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
+   ;; possible. Set it to nil if you have no way to use HTTPS in your
+   ;; environment, otherwise it is strongly recommended to let it set to t.
+   ;; This variable has no effect if Emacs is launched with the parameter
+   ;; `--insecure' which forces the value of this variable to nil.
+   ;; (default t)
+   dotspacemacs-elpa-https t
+   colors-enable-nyan-cat-progress-bar t
+   shell-default-term-shell "/usr/local/bin/bash"
+   mu4e-maildir "~/Mail"
+   mu4e-drafts-folder "/[Gmail].Drafts"
+   mu4e-sent-folder   "/[Gmail].Sent Mail"
+   mu4e-trash-folder  "/[Gmail].Trash"
+   mu4e-sent-messages-behavior 'delete
+   mu4e-maildir-shortcuts '(("/INBOX"             . ?i)
+                            ("/[Gmail].Sent Mail" . ?s)
+                            ("/[Gmail].Trash"     . ?t))
+   mu4e-get-mail-command "offlineimap"
+   ;;user-mail-address "email"
+   ;;user-full-name  "Name"
+
+   mu4e-compose-signature-auto-include nil
+   mu4e-view-show-images t
+   mu4e-view-show-addresses t
+   message-send-mail-function 'smtpmail-send-it
+   starttls-use-gnutls t
+   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+   smtpmail-auth-credentials (expand-file-name "~/.mailinfo.gpg")
+   smtpmail-default-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-service 587
+   mu4e-mu-binary "/usr/local/bin/mu"
+   smtpmail-debug-info t
+   mastodon-instance-url "pangkalan.golabs.io/web"
+   ;; Maximum allowed time in seconds to contact an ELPA repository.
+   dotspacemacs-elpa-timeout 5
+   ;; If non nil then spacemacs will check for updates at startup
+   ;; when the current branch is not `develop'. (default t)
+   dotspacemacs-check-for-update t
+   ;; One of `vim', `emacs' or `hybrid'. Evil is always enabled but if the
+   ;; variable is `emacs' then the `holy-mode' is enabled at startup. `hybrid'
+   ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
+   ;; unchanged. (default 'vim)
+   dotspacemacs-editing-style 'emacs
+   ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
+   dotspacemacs-verbose-loading nil
+   ;; Specify the startup banner. Default value is `official', it displays
+   ;; the official spacemacs logo. An integer value is the index of text
+   ;; banner, `random' chooses a random text banner in `core/banners'
+   ;; directory. A string value must be a path to an image format supported
+   ;; by your Emacs build.
+   ;; If the value is nil then no banner is displayed. (default 'official)
+   dotspacemacs-startup-banner nil
+   ;; List of items to show in the startup buffer. If nil it is disabled.
+   ;; Possible values are: `recents' `bookmarks' `projects'.
+   ;; (default '(recents projects))
+   dotspacemacs-startup-lists '(recents projects)
+   ;; Number of recent files to show in the startup buffer. Ignored if
+   ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
+   dotspacemacs-startup-recent-list-size 5
+   ;; Default major mode of the scratch buffer (default `text-mode')
+   dotspacemacs-scratch-mode 'text-mode
+   ;; List of themes, the first of the list is loaded when spacemacs starts.
+   ;; Press <SPC> T n to cycle to the next theme in the list (works great
+   ;; with 2 themes variants, one dark and one light)
+   dotspacemacs-themes '(
+                         gruvbox-dark-soft
+                         leuven
+                   ;;      atom-one-dark
+                   ;;      cyberpunk
+                         doom-tomorrow-night
+                   ;;      darktooth
+                         )
+   ;; If non nil the cursor color matches the state color in GUI Emacs.
+   dotspacemacs-colorize-cursor-according-to-state t
+   ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
+   ;; size to make separators look not too crappy.
+   dotspacemacs-default-font '("Fura Code Nerd Font"
+                               :size 15
+                               :weight normal
+                               :width normal
+                               :powerline-scale 1.5)
+   ;; The leader key
+   dotspacemacs-leader-key "M"
+   ;; The leader key accessible in `emacs state' and `insert state'
+   ;; (default "M-m")
+   dotspacemacs-emacs-leader-key "M-m"
+   ;; Major mode leader key is a shortcut key which is the equivalent of
+   ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
+   dotspacemacs-major-mode-leader-key ","
+   ;; Major mode leader key accessible in `emacs state' and `insert state'.
+   ;; (default "C-M-m)
+   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; These variables control whether separate commands are bound in the GUI to
+   ;; the key pairs C-i, TAB and C-m, RET.
+   ;; Setting it to a non-nil value, allows for separate commands under <C-i>
+   ;; and TAB or <C-m> and RET.
+   ;; In the terminal, these pairs are generally indistinguishable, so this only
+   ;; works in the GUI. (default nil)
+   dotspacemacs-distinguish-gui-tab nil
+   ;; (Not implemented) dotspacemacs-distinguish-gui-ret nil
+   ;; The command key used for Evil commands (ex-commands) and
+   ;; Emacs commands (M-x).
+   ;; By default the command key is `:' so ex-commands are executed like in Vim
+   ;; with `:' and Emacs commands are executed with `<leader> :'.
+   dotspacemacs-command-key ":"
+   ;; If non nil `Y' is remapped to `y$'. (default t)
+   dotspacemacs-remap-Y-to-y$ t
+   ;; Name of the default layout (default "Default")
+   dotspacemacs-default-layout-name "Default"
+   ;; If non nil the default layout name is displayed in the mode-line.
+   ;; (default nil)
+   dotspacemacs-display-default-layout nil
+   ;; If non nil then the last auto saved layouts are resume automatically upon
+   ;; start. (default nil)
+   dotspacemacs-auto-resume-layouts nil
+   ;; Location where to auto-save files. Possible values are `original' to
+   ;; auto-save the file in-place, `cache' to auto-save the file to another
+   ;; file stored in the cache directory and `nil' to disable auto-saving.
+   ;; (default 'cache)
+   dotspacemacs-auto-save-file-location 'cache
+   ;; Maximum number of rollback slots to keep in the cache. (default 5)
+   dotspacemacs-max-rollback-slots 5
+   ;; If non nil then `ido' replaces `helm' for some commands. For now only
+   ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
+   ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
+   dotspacemacs-use-ido nil
+   ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
+   dotspacemacs-helm-resize nil
+   ;; if non nil, the helm header is hidden when there is only one source.
+   ;; (default nil)
+   dotspacemacs-helm-no-header nil
+   ;; define the position to display `helm', options are `bottom', `top',
+   ;; `left', or `right'. (default 'bottom)
+   dotspacemacs-helm-position 'bottom
+   ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
+   ;; several times cycle between the kill ring content. (default nil)
+   dotspacemacs-enable-paste-micro-state nil
+   ;; Which-key delay in seconds. The which-key buffer is the popup listing
+   ;; the commands bound to the current keystroke sequence. (default 0.4)
+   dotspacemacs-which-key-delay 0.4
+   ;; Which-key frame position. Possible values are `right', `bottom' and
+   ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
+   ;; right; if there is insufficient space it displays it at the bottom.
+   ;; (default 'bottom)
+   dotspacemacs-which-key-position 'bottom
+   ;; If non nil a progress bar is displayed when spacemacs is loading. This
+   ;; may increase the boot time on some systems and emacs builds, set it to
+   ;; nil to boost the loading time. (default t)
+   dotspacemacs-loading-progress-bar t
+   ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
+   ;; (Emacs 24.4+ only)
+   dotspacemacs-fullscreen-at-startup nil
+   ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
+   ;; Use to disable fullscreen animations in OSX. (default nil)
+   dotspacemacs-fullscreen-use-non-native nil
+   ;; If non nil the frame is maximized when Emacs starts up.
+   ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
+   ;; (default nil) (Emacs 24.4+ only)
+   dotspacemacs-maximized-at-startup t
+   ;; A value from the range (0..100), in increasing opacity, which describes
+   ;; the transparency level of a frame when it's active or selected.
+   ;; Transparency can be toggled through `toggle-transparency'. (default 90)
+   dotspacemacs-active-transparency 90
+   ;; A value from the range (0..100), in increasing opacity, which describes
+   ;; the transparency level of a frame when it's inactive or deselected.
+   ;; Transparency can be toggled through `toggle-transparency'. (default 90)
+   dotspacemacs-inactive-transparency 90
+   ;; If non nil unicode symbols are displayed in the mode line. (default t)
+   dotspacemacs-mode-line-unicode-symbols t
+   ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
+   ;; scrolling overrides the default behavior of Emacs which recenters the
+   ;; point when it reaches the top or bottom of the screen. (default t)
+   dotspacemacs-smooth-scrolling t
+   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
+   ;; derivatives. If set to `relative', also turns on relative line numbers.
+   ;; (default nil)
+   dotspacemacs-line-numbers t
+   ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
+   ;; (default nil)
+   dotspacemacs-smartparens-strict-mode nil
+   ;; Select a scope to highlight delimiters. Possible values are `any',
+   ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
+   ;; emphasis the current one). (default 'all)
+   dotspacemacs-highlight-delimiters 'all
+   ;; If non nil advises quit functions to keep server open when quitting.
+   ;; (default nil)
+   dotspacemacs-persistent-server nil
+   ;; List of search tool executable names. Spacemacs uses the first installed
+   ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
+   ;; (default '("ag" "pt" "ack" "grep"))
+   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   ;; The default package repository used if no explicit repository has been
+   ;; specified with an installed package.
+   ;; Not used for now. (default nil)
+   dotspacemacs-default-package-repository nil
+   ;; Delete whitespace while saving buffer. Possible values are `all'
+   ;; to aggressively delete empty line and long sequences of whitespace,
+   ;; `trailing' to delete only the whitespace at end of lines, `changed'to
+   ;; delete only whitespace for changed lines or `nil' to disable cleanup.
+   ;; (default nil)
+   dotspacemacs-whitespace-cleanup nil
+   ruby-version-manager 'rbenv
+   ))
+
+(defun dotspacemacs/user-init ()
+  (mapc 'load (file-expand-wildcards `"~/.emacs.d/elpa/dash-*/dash.el"))`
+  (mapc 'load (file-expand-wildcards "~/.emacs.d/elpa/autothemer-*/autothemer.el"))
+  "Initialization function for user code.
+It is called immediately after `dotspacemacs/init', before layer configuration
+executes.
+ This function is mostly useful for variables that need to be set
+before packages are loaded. If you are unsure, you should try in setting them in
+`dotspacemacs/user-config' first."
+  )
+
+(defun irfn:go-mode-hook ()
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-,") 'pop-tag-mark)
+  (local-set-key (kbd "C-c ,") 'go-test-current-file)
+  (local-set-key (kbd "C-c .") 'go-test-current-test)
+  )
+
+(defun irfn:picture-mode-hook ()
+  (local-set-key (kbd "M-s <right>") 'picture-movement-right)
+  (local-set-key (kbd "M-s <left>") 'picture-movement-left)
+  (local-set-key (kbd "M-s <up>") 'picture-movement-up)
+  (local-set-key (kbd "M-s <down>") 'picture-movement-down)
+    )
+
+(eval-after-load "org-present"
+  '(progn
+     (add-hook 'org-present-mode-hook
+               (lambda ()
+                 (org-present-big)
+                 (org-display-inline-images)
+                 (org-present-hide-cursor)
+                 (org-present-read-only)))
+     (add-hook 'org-present-mode-quit-hook
+               (lambda ()
+                 (org-present-small)
+                 (org-remove-inline-images)
+                 (org-present-show-cursor)
+                 (org-present-read-write)))))
+
+(defun djcb-ditaa-generate ()
+  (interactive)
+  (shell-command
+   (concat ditaa-cmd " " buffer-file-name)))
+
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+This function is called at the very end of Spacemacs initialization after
+layers configuration.
+This is the place where most of your configurations should be done. Unless it is
+explicitly specified that a variable should be set before a package is loaded,
+you should place your code here."
+  ;;(exit-splash-screen)
+  (require 'helm-bookmark)
+  ;;(setq browse-url-browser-function 'xwidget-webkit-browse-url)
+  (setq org-bullets-bullet-list '("◉" "○" "⌗" "◆"))
+  (setq clojure-enable-fancify-symbols t)
+  (exec-path-from-shell-copy-env "PATH")
+  (setq exec-path (append exec-path '("/usr/local/bin" "~/.jabba/jdk/1.8.144/Contents/Home/bin" "~/.rbenv/shims")))
+  (global-linum-mode)
+;;  (load-theme 'gruvbox-dark-hard)
+  (setq gofmt-command "goimports")
+  (add-hook 'go-mode-hook 'irfn:go-mode-hook)
+  (add-hook 'picture-mode-hook 'irfn:picture-mode-hook)
+
+  (global-set-key (kbd "M-s <right>") 'picture-movement-right)
+  (global-set-key (kbd "M-s <left>") 'picture-movement-left)
+  (global-set-key (kbd "M-s <up>") 'picture-movement-up)
+  (global-set-key (kbd "M-s <down>") 'picture-movement-down)
+
+  (global-set-key (kbd "s-t") 'projectile-find-file)
+  (global-set-key (kbd "s-p") 'projectile-switch-project)
+  (global-set-key (kbd "M-m g l") 'magit-log-all)
+  (global-set-key (kbd "M-s <M-up>") 'spacemacs/toggle-holy-mode)
+  (local-set-key (kbd "C-'") 'call-last-kbd-macro)
+  (local-set-key (kbd "s-/") 'comment-region)
+  (local-set-key (kbd "M-s-÷") 'uncomment-region)
+  (local-set-key (kbd "<f8>") 'org-present)
+  (setq org-agenda-files '("~/Dropbox/Notes/Org"))
+
+  (autoload 'plantuml-mode "plantuml-mode"
+    "Major mode for editing uml files" t)
+  (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
+
+  (autoload 'apib-mode "apib-mode"
+    "Major mode for editing API Blueprint files" t)
+  (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
+  (use-package cl-generic)
+ )
+
+;; Do not write anything past this comment. This is where Emacs will
+;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(custom-safe-themes
+   '("a622aaf6377fe1cd14e4298497b7b2cae2efc9e0ce362dade3a58c16c89e089c" "e2fd81495089dc09d14a88f29dfdff7645f213e2c03650ac2dd275de52a513de" "62c81ae32320ceff5228edceeaa6895c029cc8f43c8c98a023f91b5b339d633f" "a5956ec25b719bf325e847864e16578c61d8af3e8a3d95f60f9040d02497e408" "f27c3fcfb19bf38892bc6e72d0046af7a1ded81f54435f9d4d09b3bff9c52fc1" "42b9d85321f5a152a6aef0cc8173e701f572175d6711361955ecfb4943fe93af" "8891c81848a6cf203c7ac816436ea1a859c34038c39e3cf9f48292d8b1c86528" "2c88b703cbe7ce802bf6f0bffe3edbb8d9ec68fc7557089d4eaa1e29f7529fe1" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "7366916327c60fdf17b53b4ac7f565866c38e1b4a27345fe7facbf16b7a4e9e8" "b050365105e429cb517d98f9a267d30c89336e36b109a1723d95bc0f7ce8c11d" "a566448baba25f48e1833d86807b77876a899fc0c3d33394094cf267c970749f" "ecba61c2239fbef776a72b65295b88e5534e458dfe3e6d7d9f9cb353448a569e" "5c72f78946231d45962c8cc2d054b0a437a9385982576d669c07c8e92afeff64" "3fa81193ab414a4d54cde427c2662337c2cab5dd4eb17ffff0d90bca97581eb6" "6ac7c0f959f0d7853915012e78ff70150bfbe2a69a1b703c3ac4184f9ae3ae02" "021720af46e6e78e2be7875b2b5b05344f4e21fad70d17af7acfd6922386b61e" "891debfe489c769383717cc7d0020244a8d62ce6f076b2c42dd1465b7c94204d" "013c62a1fcee7c8988c831027b1c38ae215f99722911b69e570f21fc19cb662e" "ed0b4fc082715fc1d6a547650752cd8ec76c400ef72eb159543db1770a27caa7" "81db42d019a738d388596533bd1b5d66aef3663842172f3696733c0aab05a150" "858a353233c58b69dbe3a06087fc08905df2d8755a0921ad4c407865f17ab52f" "ce0788113995714fd96970417e8e71d5182d02bc40cc7ffef307f5e01e55942f" "7f3ef7724515515443f961ef87fee655750512473b1f5bf890e2dc7e065f240c" "2b6bd2ebad907ee42b3ffefa4831f348e3652ea8245570cdda67f0034f07db93" "65d9573b64ec94844f95e6055fe7a82451215f551c45275ca5b78653d505bc42" "a1a966cf2e87be6a148158c79863440ba2e45aa06cc214341feafe5c6deca4f2" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "a4c9e536d86666d4494ef7f43c84807162d9bd29b0dfd39bdf2c3d845dcc7b2e" "5673c365c8679addfb44f3d91d6b880c3266766b605c99f2d9b00745202e75f6" "d600c677f1777c1e4bfb066529b5b73c0179d0499dd4ffa3f599a0fb0cfbd501" "8288b9b453cdd2398339a9fd0cec94105bc5ca79b86695bd7bf0381b1fbe8147" "ba9be9caf9aa91eb34cf11ad9e8c61e54db68d2d474f99a52ba7e87097fa27f5" "6559aabf0f35a65b95f92dfd3be1bd21fbc7068cce10b791558fbdbbe347c742" "af23b37b52abc61b78373a47767df9e35c42c63d80be6c0f2d2ed8fc6175d50f" "08b8807d23c290c840bbb14614a83878529359eaba1805618b3be7d61b0b0a32" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" "3632cf223c62cb7da121be0ed641a2243f7ec0130178722554e613c9ab3131de" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "62408b3adcd05f887b6357e5bd9221652984a389e9b015f87bbc596aba62ba48" "8d737627879eff1bbc7e3ef1e9adc657207d9bf74f9abb6e0e53a6541c5f2e88" "16fd69242d5383a431bc49ed3b567dbce148a4991242baa11ee6367ca93705e2" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "3a5f04a517096b08b08ef39db6d12bd55c04ed3d43b344cf8bd855bde6d3a1ae" "f67652440b66223b66a4d3e9c0ddeddbf4a6560182fa38693bdc4d940ce43a2e" "ed763cdf0b7c523cdc094ba137080e7f2c4e7a28303e0cbeb0eda159f964f1b6" "235dc2dd925f492667232ead701c450d5c6fce978d5676e54ef9ca6dd37f6ceb" "0f0022c8091326c9894b707df2ae58dd51527b0cf7abcb0a310fb1e7bda78cd2" "e82a7827a9d859dc0ed2fef0b932872d6effa0462fbf32fe193d251c3ac36cf8" "6bde11b304427c7821b72a06a60e8d079b8f7ae10b407d8af37ed5e5d59b1324" "227e2c160b0df776257e1411de60a9a181f890cfdf9c1f45535fc83c9b34406b" "63b822ccd7a1928a7cbc88037dddf7b74b2f8a507e1bccd7281f20646f72cd0a" "e91ca866d6cbb79786e314e0466f4f1b8892b72e77ed702e53bf7565e0dfd469" "71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "70403e220d6d7100bae7775b3334eddeb340ba9c37f4b39c189c2c29d458543b" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "e0d42a58c84161a0744ceab595370cbe290949968ab62273aed6212df0ea94b4" "be4025b1954e4ac2a6d584ccfa7141334ddd78423399447b96b6fa582f206194" "cc60d17db31a53adf93ec6fad5a9cfff6e177664994a52346f81f62840fe8e23" "c1390663960169cd92f58aad44ba3253227d8f715c026438303c09b9fb66cdfb" "19ba41b6dc0b5dd34e1b8628ad7ae47deb19f968fe8c31853d64ea8c4df252b8" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "7557aa0d3854c7e910121ba2ef94f4c4e70de7d32ddebb609719f545f7f7be0d" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "7f5837a7dbf54c2b7c41d94f5eb1373cf63274847d1971037faa24d7f2231eea" "b571f92c9bfaf4a28cb64ae4b4cdbda95241cd62cf07d942be44dc8f46c491f4" "427fed191e7a766152e59ef0e2904283f436dbbe259b9ccc04989f3acde50a55" "7bfd38733dc58478d2104c30114022a88ddb92540fa4fb7516f79e55967a348d" "7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "5e2dc1360a92bb73dafa11c46ba0f30fa5f49df887a8ede4e3533c3ab6270e08" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" "b825687675ea2644d1c017f246077cdd725d4326a1c11d84871308573d019f67" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "d8f76414f8f2dcb045a37eb155bfaa2e1d17b6573ed43fb1d18b936febc7bbc2" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "9b59e147dbbde5e638ea1cde5ec0a358d5f269d27bd2b893a0947c4a867e14c1" "72c7c8b431179cbcfcea4193234be6a0e6916d04c44405fc87905ae16bed422a" "f64c9f8b4241b680b186f4620afb9c82fa2a76cf4498a7431f90db59bb1892eb" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "ce557950466bf42096853c6dac6875b9ae9c782b8665f62478980cc5e3b6028d" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "3d5ef3d7ed58c9ad321f05360ad8a6b24585b9c49abcee67bdcbb0fe583a6950" "cedd3b4295ac0a41ef48376e16b4745c25fa8e7b4f706173083f16d5792bb379" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "66132890ee1f884b4f8e901f0c61c5ed078809626a547dbefbb201f900d03fd8" "a800120841da457aa2f86b98fb9fd8df8ba682cebde033d7dbf8077c1b7d677a" "f04122bbc305a202967fa1838e20ff741455307c2ae80a26035fbf5d637e325f" "3038a172e5b633d0b1ee284e6520a73035d0cb52f28b1708e22b394577ad2df1" "868f73b5cf78e72ca2402e1d48675e49cc9a9619c5544af7bf216515d22b58e7" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
+ '(evil-want-Y-yank-to-eol t)
+ '(flycheck-ruby-executable "/usr/bin/ruby")
+ '(flycheck-ruby-jruby-executable "~/.rbenv/shims/jruby")
+ '(inf-ruby-default-implementation "jruby")
+ '(inf-ruby-implementations
+   '(("ruby" . "irb --prompt default --noreadline -r irb/completion")
+     ("jruby" . "~/.rbenv/shims/jruby -S irb --prompt default --noreadline -r irb/completion")
+     ("rubinius" . "rbx -r irb/completion")
+     ("yarv" . "irb1.9 -r irb/completion")
+     ("macruby" . "macirb -r irb/completion")
+     ("pry" . "pry")))
+ '(inhibit-startup-buffer-menu t)
+ '(inhibit-startup-screen t)
+ '(org-todo-keywords '((sequence "DISCUSS" "TODO" "IN-PROGRESS" "DONE")))
+ '(package-archives
+   '(("melpa" . "https://melpa.org/packages/")
+     ("gnu" . "https://elpa.gnu.org/packages/")))
+ '(package-selected-packages
+   '(speed-type transient lv org-brain treepy graphql hackernews jinja2-mode company-ansible ansible-doc ansible nginx-mode mastodon ob-elixir flycheck-mix flycheck-credo alchemist elixir-mode parinfer sesman xwidgete svg-clock utop tuareg caml ocp-indent merlin twittering-mode csharp-mode org-mime restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well semi apel emojify oauth2 pcre2el org-category-capture json-snatcher json-reformat parent-mode haml-mode ham-mode html-to-markdown gitignore-mode fringe-helper git-gutter+ git-gutter logito pcache pos-tip flx let-alist iedit anzu scala-mode skewer-mode request-deferred request deferred simple-httpd memoize font-lock+ diminish autothemer terraform-mode hcl-mode tern go-mode ghc haskell-mode inflections edn multiple-cursors peg eval-sexp-fu highlight seq spinner queue pkg-info epl bind-map packed s log4e gntp auto-complete popup flim yasnippet marshal dash-functional async dash circe bind-key anaconda-mode cider paredit flyspell-correct company gh alert git-commit ghub with-editor hydra pythonic inf-ruby esxml tide typescript-mode feature-mode eclim websocket go-snippets zenburn-theme web-mode spaceline solarized-theme pip-requirements ox-pandoc org-pomodoro org-download live-py-mode js2-refactor jbeans-theme inkpot-theme helm-make flycheck-haskell evil-nerd-commenter ein editorconfig dumb-jump doom-themes company-web color-theme-sanityinc-tomorrow ace-window ace-link clojure-mode sbt-mode smartparens evil helm helm-core flycheck avy markdown-mode projectile org-plus-contrib magit magit-popup rust-mode f js2-mode ht zonokai-theme zone-nyan yapfify yaml-mode xterm-color xkcd ws-butler winum which-key wgrep web-completion-data web-beautify wanderlust volatile-highlights vi-tilde-fringe vagrant-tramp vagrant uuidgen use-package unfill undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme toml-mode toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit swift-mode sunny-day-theme sublime-themes subatomic256-theme subatomic-theme stickyfunc-enhance srefactor sql-indent spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode slack shell-pop seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs rcirc-notify rcirc-color rbenv ranger rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racer pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode protobuf-mode professional-theme powerline popwin plantuml-mode planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pbcopy pastels-on-dark-theme paradox pandoc-mode osx-trash osx-dictionary orgit organic-green-theme org-projectile org-present org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noflet noctilux-theme niflheim-theme neotree naquadah-theme mwim mustang-theme multi-term mu4e-maildirs-extension mu4e-alert move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow magit-gh-pulls madhat2r-theme macrostep lush-theme lua-mode lorem-ipsum livid-mode linum-relative link-hint light-soap-theme less-css-mode launchctl kite json-mode js-doc jazz-theme ir-black-theme intero insert-shebang info+ indent-guide hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt heroku-theme hemisu-theme help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-hoogle helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme groovy-mode groovy-imports grandshell-theme goto-chg gotham-theme google-translate golden-ratio go-guru go-eldoc go-dlv gnuplot gmail-message-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md geeknote gandalf-theme fuzzy flyspell-correct-helm flymd flycheck-rust flycheck-pos-tip flx-ido flatui-theme flatland-theme fish-mode firebelly-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu espresso-theme eshell-z eshell-prompt-extras esh-help erlang ensime emmet-mode elisp-slime-nav edit-server dracula-theme django-theme disaster diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme csv-mode company-terraform company-tern company-statistics company-shell company-go company-ghci company-ghc company-emacs-eclim company-cabal company-c-headers company-anaconda column-enforce-mode color-theme-sanityinc-solarized color-identifiers-mode coffee-mode cmm-mode cmake-mode clues-theme clojure-snippets clj-refactor clean-aindent-mode clang-format cider-eval-sexp-fu chruby cherry-blossom-theme chef-mode cargo busybee-theme bundler bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile atom-one-dark-theme arduino-mode apropospriate-theme apib-mode anti-zenburn-theme ample-zen-theme ample-theme all-the-icons alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-jump-helm-line ac-ispell))
+ '(plantuml-jar-path "~/dev/java/platuml/plantuml-8059.jar")
+ '(plantuml-java-command "~/.jabba/jdk/1.8.144/Contents/Home/bin/java")
+ '(scheme-program-name "chez")
+ '(slack-buffer-emojify t t)
+ '(slack-prefer-current-team t t)
+ '(slack-request-timeout 60))
+'(inhibit-startup-buffer-menu t)
+'(inhibit-startup-screen t)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
