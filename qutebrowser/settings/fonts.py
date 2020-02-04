@@ -1,31 +1,31 @@
 ## Type: Font
 ## Font used in the completion categories.
-c.fonts.completion.category = 'bold 11pt monospace'
+c.fonts.completion.category = 'bold 14pt monospace'
 ## Font used in the completion widget.
-c.fonts.completion.entry = 'bold 10pt monospace'
+c.fonts.completion.entry = 'bold 14pt monospace'
 ## Font used for the debugging console.
 # c.fonts.debug_console = '10pt monospace'
 ## Font used for the downloadbar.
-c.fonts.downloads = 'bold 10pt monospace'
+c.fonts.downloads = 'bold 14pt monospace'
 ## Font used for the hints.
-c.fonts.hints = 'bold 10pt monospace'
+c.fonts.hints = 'bold 13pt monospace'
 ## Font used in the keyhint widget.
-c.fonts.keyhint = 'bold 10pt monospace'
+c.fonts.keyhint = 'bold 14pt monospace'
 ## Font used for error messages.
-c.fonts.messages.error = 'bold 10pt monospace'
+c.fonts.messages.error = 'bold 13pt monospace'
 ## Font used for info messages.
-c.fonts.messages.info = 'bold 10pt monospace'
+c.fonts.messages.info = 'bold 13pt monospace'
 ## Font used for warning messages.
-c.fonts.messages.warning = 'bold 10pt monospace'
+c.fonts.messages.warning = 'bold 13pt monospace'
 ## Default monospace fonts. Whenever "monospace" is used in a font
 ## setting, it's replaced with the fonts listed here.
 c.fonts.monospace = '"Fira Code", "Consolas"'
 ## Font used for prompts.
 # c.fonts.prompts = '10pt sans-serif'
 ## Font used in the statusbar.
-c.fonts.statusbar = 'bold 10pt monospace'
+c.fonts.statusbar = 'bold 14pt monospace'
 ## Font used in the tab bar.
-c.fonts.tabs = 'bold 11pt monospace'
+c.fonts.tabs = 'bold 12pt monospace'
 
 ## Type: FontFamily
 ## Font family for cursive fonts.
