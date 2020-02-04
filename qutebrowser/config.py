@@ -5,7 +5,7 @@ config.source('settings/search.py')
 config.source('theme/theme.py')
 
 c.statusbar.hide = False
-c.editor.command = ['/usr/local/bin/emacsclient -c', '{file}']
+c.editor.command = ['/usr/local/bin/emacsclient', '-c', '{file}']
 c.url.default_page = 'about:blank'
 c.zoom.levels = ['50%', '75%', '100%', '125%', '150%', '200%']
 ## List of widgets displayed in the statusbar.
