@@ -1,6 +1,7 @@
+# Modified from
 # base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
-# Base16 qutebrowser template by theova
-# Default Dark scheme by Chris Kempson (http://chriskempson.com)
+# WIP to achieve a srcery-colors theme for qutebrowser
+# https://github.com/srcery-colors
 
 base00 = "#1C1B19"
 base01 = "#585858"

@@ -1,3 +1,5 @@
+# Forked from 
+# https://gitlab.com/jgkamat/qutemacs/-/blob/master/qutemacs.py
 # qutemacs - a simple, preconfigured Emacs binding set for qutebrowser
 #
 # The aim of this binding set is not to provide bindings for absolutely
@@ -126,6 +128,10 @@ c.bindings.commands['normal'] = {
     '<alt-w>': 'fake-key <Ctrl-c>;;message-info "copy to clipboard"',
     '<ctrl-y>': 'insert-text {primary}',
 
+    # other
+    '<alt-y>': 'yank',
+
+    # num
     '1': 'fake-key 1',
     '2': 'fake-key 2',
     '3': 'fake-key 3',

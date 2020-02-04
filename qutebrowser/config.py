@@ -1,3 +1,4 @@
+# Inspired/Copied from https://github.com/tonooo71/dotfiles/blob/master/.config/qutebrowser/config.py
 config.source('qutemacs/qutemacs.py')
 config.source('settings/tab.py')
 config.source('settings/fonts.py')
