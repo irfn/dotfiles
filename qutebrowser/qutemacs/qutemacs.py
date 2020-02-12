@@ -101,9 +101,11 @@ c.bindings.commands['normal'] = {
 
     # open links
     '<ctrl-l>': 'set-cmd-text -s :open',
+    '<cmd-l>': 'set-cmd-text -s :open {clipboard}',
     '<alt-l>': 'set-cmd-text -s :open -t',
     '<ctrl-x><ctrl-g>': 'set-cmd-text -s :open g',
     '<ctrl-x><ctrl-b>': 'set-cmd-text -s :open b',
+
 
     # editing
     '<alt-[>': 'back',
@@ -130,6 +132,8 @@ c.bindings.commands['normal'] = {
 
     # other
     '<alt-y>': 'yank',
+    '<alt-p>': 'spawn --userscript qute_1pass.py fill_credentials',
+    '<cmd-r>': 'reload',
 
     # num
     '1': 'fake-key 1',

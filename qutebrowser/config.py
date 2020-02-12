@@ -7,7 +7,7 @@ config.source('theme/theme.py')
 
 c.statusbar.hide = False
 c.editor.command = ['/usr/local/bin/emacsclient', '-c', '{file}']
-c.url.default_page = 'about:blank'
+c.url.start_pages = ['file:///Users/irfn/dev/gojek/kernel/brain/todo.html']
 c.zoom.levels = ['50%', '75%', '100%', '125%', '150%', '200%']
 ## List of widgets displayed in the statusbar.
 ## Valid values:
@@ -21,3 +21,8 @@ c.zoom.levels = ['50%', '75%', '100%', '125%', '150%', '200%']
 c.statusbar.widgets = ['keypress', 'url', 'history', 'tabs', 'progress']
 ## Padding (in pixels) for the statusbar.
 c.statusbar.padding = {'top': 4, 'bottom': 4, 'left': 4, 'right': 4}
+c.content.headers.do_not_track = True
+c.completion.quick = True
+c.completion.show = 'always'
+CSS = '~/.config/qutebrowser/gruvbox-all-sites.css'
+config.bind('<cmd-i>', f'config-cycle content.user_stylesheets {CSS} ""')
