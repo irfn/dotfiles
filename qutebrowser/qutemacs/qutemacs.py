@@ -132,7 +132,7 @@ c.bindings.commands['normal'] = {
 
     # other
     '<alt-y>': 'yank',
-    '<alt-p>': 'spawn --userscript qute_1pass.py fill_credentials',
+    '<cmd-p>': 'spawn --userscript gitlab.py',
     '<cmd-r>': 'reload',
 
     # num
