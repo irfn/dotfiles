@@ -1,4 +1,5 @@
 set -x NVM_DIR ~/.nvm
+fenv "source ~/.profile"
 #source ~/.config/fish/nvm-wrapper/nvm.fish
 source ~/dev/ocaml/opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
@@ -10,25 +11,8 @@ alias z="j"
 alias kpan "kubectl get pods --all-namespaces"
 alias kc "kubectx"
 alias em "emacsclient -t"
-set -x WINEPREFIX $HOME/.wine32
-set -x WINEARCH "win32"
-set -x AOE_HOME "~/games/aoe/Age\ of\ Empires\ II"
 alias aoe="cd $AOE_HOME ; and wine age2_x1/age2_x1"
 set -x HOMEBREW_NO_ANALYTICS 1
-
-# Load fishmarks (http://github.com/techwizrd/fishmarks)
-#. $HOME/.fishmarks/marks.fish
-set -x TERM xterm-256color
-set -x CHEF_DK /opt/chefdk
-set -x CONFLUENT_HOME /opt/confluent
-set -x CONFLUENT_BIN $CONFLUENT_HOME/bin
-set -x CHEF_DK_BIN $CHEF_DK/bin
-set -x GOBIN $GOPATH/bin
-set -x PATH $PATH ~/.mix/escripts
-set -x PATH $PATH $GCLOUD_BIN
-set -x PATH $PATH $CONFLUENT_BIN
-set -x PATH $CHEF_DK_BIN $PATH
-set -x PYTHONPATH "/usr/local/Cellar/gnuradio/3.7.13.4_2/lib/python2.7/site_packages"
 alias emd="ps aux | grep Emacs | grep -v grep | awk '{print $2}' | xargs kill -9 ; emacs --daemon"
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
 
