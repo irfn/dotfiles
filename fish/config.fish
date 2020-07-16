@@ -1,14 +1,5 @@
-# Path to Oh My Fish install.
-set -gx OMF_PATH "~/.local/share/omf"
-
-# Customize Oh My Fish configuration path.
-
-# Load oh-my-fish configuration.
-source $OMF_PATH/init.fish
-
-status --is-interactive; and . (rbenv init -|psub)
 set -x NVM_DIR ~/.nvm
-source ~/.config/fish/nvm-wrapper/nvm.fish
+#source ~/.config/fish/nvm-wrapper/nvm.fish
 source ~/dev/ocaml/opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
 alias ls="exa"
@@ -26,7 +17,7 @@ alias aoe="cd $AOE_HOME ; and wine age2_x1/age2_x1"
 set -x HOMEBREW_NO_ANALYTICS 1
 
 # Load fishmarks (http://github.com/techwizrd/fishmarks)
-. $HOME/.fishmarks/marks.fish
+#. $HOME/.fishmarks/marks.fish
 set -x TERM xterm-256color
 set -x CHEF_DK /opt/chefdk
 set -x CONFLUENT_HOME /opt/confluent
