@@ -1,0 +1,29 @@
+{
+    "segments": {
+        "left": [
+        ],
+        "right": [
+          {
+            "function": "powerline_gitstatus.gitstatus",
+            "priority": 40
+          },
+          {
+                "function": "powerline_kubernetes.kubernetes",
+                "priority": 30,
+                "args": {
+                    "show_kube_logo": false,
+                    "show_cluster": true,
+                    "show_namespace": true,
+                    "show_default_namespace": true,
+                    "alerts": [
+			"production",
+			"integration"
+                    ]
+                }
+            },
+            {
+                "function": "powerline.segments.common.net.hostname"
+            }
+        ]
+    }
+}

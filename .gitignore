@@ -3,3 +3,4 @@ fish/functions
 Brewfile.lock.json
 fish/conf.d/
 fish/completions
+.DS_Store
