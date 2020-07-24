@@ -1,0 +1,8 @@
+* Symlinks from ~
+** dotfiles/tmux/tmux.conf
+
+* Symlinks from `XDG_HOME` or ~/.config
+** fish -> dotfiles/fish
+** git -> dotfiles/git
+** powerline -> powerline
+** TODO kitty

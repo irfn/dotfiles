@@ -133,6 +133,7 @@ c.bindings.commands['normal'] = {
     # other
     '<alt-y>': 'yank',
     '<cmd-p>': 'spawn --userscript gitlab.py',
+    '<cmd-d>': 'spawn --userscript qb-macarons clear-cookies "$HOME/Library/Application Support/qutebrowser/webengine/Cookies"',
     '<cmd-r>': 'reload',
 
     # num

@@ -5,9 +5,16 @@ config.source('settings/fonts.py')
 config.source('settings/search.py')
 config.source('theme/theme.py')
 
+
 c.statusbar.hide = False
 c.editor.command = ['/usr/local/bin/emacsclient', '-c', '{file}']
-c.url.start_pages = ['file:///Users/irfn/dev/gojek/kernel/brain/todo.html']
+try:
+    start_pages = open(".startpages", "r")
+    c.url.start_pages = start_pages.split()
+except FileNotFoundError:
+    print('cannot open startfiles')
+else:
+    start_pages.close()
 c.zoom.levels = ['50%', '75%', '100%', '125%', '150%', '200%']
 ## List of widgets displayed in the statusbar.
 ## Valid values:
@@ -24,5 +31,8 @@ c.statusbar.padding = {'top': 4, 'bottom': 4, 'left': 4, 'right': 4}
 c.content.headers.do_not_track = True
 c.completion.quick = True
 c.completion.show = 'always'
-CSS = '~/.config/qutebrowser/gruvbox-all-sites.css'
-config.bind('<cmd-i>', f'config-cycle content.user_stylesheets {CSS} ""')
+
+import glob
+CSS = glob.glob('userstyles/*.user.css')
+c.content.user_stylesheets = CSS
+#config.bind('<cmd-i>', f'config-cycle content.user_stylesheets {CSS} ""')
