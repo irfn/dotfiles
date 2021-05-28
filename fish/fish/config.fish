@@ -25,4 +25,6 @@ if [ -f '~/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source
 function k1pod
     kubectl get pods -l app=$argv | awk '/Running/ {print $1}' | head -1
 end
+starship init fish | source
+
 
