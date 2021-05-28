@@ -3,7 +3,7 @@ fenv "source ~/.profile"
 #source ~/.config/fish/nvm-wrapper/nvm.fish
 source ~/dev/ocaml/opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
-alias ls="exa"
+#alias ls="exa"
 alias "lsla"="exa -la"
 alias "lslta"="exa -lasnew"
 alias gst="git status"
