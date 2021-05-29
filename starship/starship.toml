@@ -1,10 +1,52 @@
-# Inserts a blank line between shell prompts
 add_newline = false
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character]                            # The name of the module we are configuring is "character"
-success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
+format = """
+$username\
+$hostname\
+$shlvl\
+$kubernetes\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$docker_context\
+$package\
+$cmake\
+$dart\
+$deno\
+$golang\
+$helm\
+$java\
+$nodejs\
+$purescript\
+$ruby\
+$rust\
+$swift\
+$terraform\
+$memory_usage\
+$gcloud\
+$env_var\
+$custom\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$shell\
+$character"""
 
-# Disable the package module, hiding it from the prompt completely
+[character]
+error_symbol = "!"
+
 [package]
-disabled = true
+disabled = false
+
+[cmd_duration]
+min_time = 1
+
+[[battery.display]]
+threshold = 10
+style = "bold red"
+
