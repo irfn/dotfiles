@@ -11,16 +11,16 @@
         "revision": "916be5238f2fade31240a763a4f8da4b65a97ae5"
       },
       "homebrew/cask": {
-        "revision": "f350ee0a28a9e0826c27bebf774bc47a05bdb4ff"
+        "revision": "6ce1a529aa4f5d0d80d5fda16d416799717d1ede"
       },
       "homebrew/cask-fonts": {
-        "revision": "8962efc000e784721d64ffa3557af62aa42a4869"
+        "revision": "2d96ab85b2930923ef5b347fd159ec1f3e4a6c6d"
       },
       "homebrew/core": {
-        "revision": "ca68ffb8776ffc23c2f9ed88450d72270eb1216d"
+        "revision": "6941435938fae4e5ca8c3d08be039443d50fa1ca"
       },
       "homebrew/services": {
-        "revision": "b467edf02e77344d55c019ba59dee8645e446a76"
+        "revision": "5f2fe015086de434df83144717378f43e087d2ab"
       },
       "koekeishiya/formulae": {
         "revision": "14013bd892497b9aa9f67ddab993d1fc61691fb9"
@@ -1993,7 +1993,7 @@
         }
       },
       "kui": {
-        "version": "10.2.1",
+        "version": "10.3.6",
         "options": {
           "full_name": "kui"
         }
@@ -2075,15 +2075,45 @@
         "options": {
           "full_name": "font-source-code-pro"
         }
+      },
+      "hammerspoon": {
+        "version": "0.9.90",
+        "options": {
+          "full_name": "hammerspoon"
+        }
+      },
+      "lunar": {
+        "version": "3.2.3",
+        "options": {
+          "full_name": "lunar"
+        }
+      },
+      "font-source-code-pro-for-powerline": {
+        "version": "latest",
+        "options": {
+          "full_name": "font-source-code-pro-for-powerline"
+        }
+      },
+      "font-inconsolata": {
+        "version": "latest",
+        "options": {
+          "full_name": "font-inconsolata"
+        }
+      },
+      "font-inconsolata-for-powerline": {
+        "version": "latest",
+        "options": {
+          "full_name": "font-inconsolata-for-powerline"
+        }
       }
     }
   },
   "system": {
     "macos": {
       "big_sur": {
-        "HOMEBREW_VERSION": "3.1.9",
+        "HOMEBREW_VERSION": "3.1.9-64-geeef3f4",
         "HOMEBREW_PREFIX": "/opt/homebrew",
-        "Homebrew/homebrew-core": "ca68ffb8776ffc23c2f9ed88450d72270eb1216d",
+        "Homebrew/homebrew-core": "6941435938fae4e5ca8c3d08be039443d50fa1ca",
         "CLT": "12.5.0.0.1.1617976050",
         "Xcode": "12.5",
         "macOS": "11.2.3"
