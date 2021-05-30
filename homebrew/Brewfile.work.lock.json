@@ -2105,6 +2105,12 @@
         "options": {
           "full_name": "font-inconsolata-for-powerline"
         }
+      },
+      "vscodium": {
+        "version": "1.56.2",
+        "options": {
+          "full_name": "vscodium"
+        }
       }
     }
   },
