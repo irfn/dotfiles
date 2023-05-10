@@ -5,4 +5,4 @@
 ** fish -> dotfiles/fish
 ** git -> dotfiles/git
 ** powerline -> powerline
-** TODO kitty
+** https://thoughtbot.com/blog/brewfile-a-gemfile-but-for-homebrew

@@ -1,3 +1,0 @@
-#! /usr/bin/env sh
-source ~/.profile
-tmux new-session -A -c ~ -s $1

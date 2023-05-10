@@ -12,7 +12,7 @@ end
 local function toggleKitty()
    local kitty = hs.application.find("kitty")
    if not kitty then
-      hs.execute("source ~/.profile && /Applications/kitty.app/Contents/MacOS/kitty fishmux kitty-default", true)
+      hs.execute("/Applications/kitty.app/Contents/MacOS/kitty -d ~ --hold tmux new-session -A -c ~ -s kitty", true)
    elseif kitty:isHidden() then
       hs.application.launchOrFocus("kitty")
    elseif hs.application.frontmostApplication() ~= kitty then
@@ -21,10 +21,22 @@ local function toggleKitty()
    end
 end
 
+local function toggleEmacs()
+  local emacs = hs.application.find("Emacs")
+  if not emacs then
+     hs.execute("fish -c 'emacs'", true)
+  elseif emacs:isHidden() then
+     hs.application.launchOrFocus("emacs")
+  elseif hs.application.frontmostApplication() ~= emacs then
+  else
+    emacs:hide()
+  end
+end
+
 hs.hotkey.bind(mash, "s", function() toggleApp("Safari") end)
-hs.hotkey.bind(mash, "e", function() toggleApp("Emacs") end)
+hs.hotkey.bind(mash, "e", function() toggleEmacs() end)
 hs.hotkey.bind(mash, "f", function() toggleApp("Finder") end)
-hs.hotkey.bind(mash, "i", function() toggleApp("Insomnia") end)
+hs.hotkey.bind(mash, "c", function() toggleApp("Code") end)
 hs.hotkey.bind(mash, "m", function() toggleApp("Mail") end)
 hs.hotkey.bind(mash, "p", function() toggleApp("System Preferences") end)
 hs.hotkey.bind(mash, "l", function() toggleApplication("slack") end)
