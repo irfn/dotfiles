@@ -12,7 +12,7 @@ end
 local function toggleKitty()
    local kitty = hs.application.find("kitty")
    if not kitty then
-      hs.execute("/Applications/kitty.app/Contents/MacOS/kitty -d ~ --hold tmux new-session -A -c ~ -s kitty", true)
+      hs.execute("/Applications/kitty.app/Contents/MacOS/kitty -d ~ --hold tmux new-session -A -c ~ -s base14", true)
    elseif kitty:isHidden() then
       hs.application.launchOrFocus("kitty")
    elseif hs.application.frontmostApplication() ~= kitty then
@@ -34,6 +34,7 @@ local function toggleEmacs()
 end
 
 hs.hotkey.bind(mash, "s", function() toggleApp("Safari") end)
+hs.hotkey.bind(mash, "a", function() toggleApp("Arc") end)
 hs.hotkey.bind(mash, "e", function() toggleEmacs() end)
 hs.hotkey.bind(mash, "f", function() toggleApp("Finder") end)
 hs.hotkey.bind(mash, "c", function() toggleApp("Code") end)
