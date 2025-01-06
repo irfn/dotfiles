@@ -12,6 +12,7 @@ alias "lsla"="eza -la"
 alias "lslta"="eza -lasnew"
 alias gst="git status"
 alias z="j"
+alias tailscale /Applications/Tailscale.app/Contents/MacOS/Tailscale
 alias kpan "kubectl get pods --all-namespaces"
 alias k="kubectl"
 alias kc "kubectx"
@@ -19,7 +20,7 @@ alias em "emacsclient -t"
 alias aoe="cd $AOE_HOME ; and wine age2_x1/age2_x1"
 set -x HOMEBREW_NO_ANALYTICS 1
 alias emd="ps aux | grep Emacs | grep -v grep | awk '{print $2}' | xargs kill -9 ; emacs --daemon"
-[ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
+[ -f /opt/homebrew/share/autojump/autojump.fish ]; and source /opt/homebrew/share/autojump/autojump.fish
 
 source (brew --prefix jenv)/share/fish/vendor_functions.d/jenv.fish
 status --is-interactive; and source (jenv init -|psub)
